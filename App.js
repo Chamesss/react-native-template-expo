@@ -1,20 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native"
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './src/app/HomeScreen'
+import Login from './src/app/login/Login'
+import { GluestackUIProvider } from "@gluestack-ui/themed"
+import { config } from "@gluestack-ui/config"
+import useTheme from "./src/hooks/useTheme";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const { theme } = useTheme()
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <GluestackUIProvider colorMode={theme} config={config}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Main"
+            options={{ headerShown: false }}
+            component={HomeScreen}
+          />
+          <Stack.Screen
+            name="Login"
+            options={{ headerShown: true }}
+            component={Login}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GluestackUIProvider>
+
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
